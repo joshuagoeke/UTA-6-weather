@@ -9,17 +9,51 @@ header {
 }
 .container-fluid{
     background-color: rgb(179, 156, 200);
-    padding: 1rem;
+    padding: 0.5rem;
 }
 
-#city-search{
+#city-search {
 
+}
+
+#weather-data{
+    width:75%;
+    background-color: orange;
+    
 }
 
 .card{
     background-color: blanchedalmond;
+    margin: 0.1rem;
 }
+
+
 
 button {
     margin: 0.2rem
+}
+
+#fivedays{
+    background-color: blue;
+    justify-items: center;
+}
+
+.daycard{
+    display: inline-block;
+    max-width: 18%;
+}
+
+@media only screen and and(max-width: 580px) {
+    #weather-data{
+        display:inline-flex;
+        background-color: yellow;
+        
+    }
+    
+    .daycard{
+        display: block;
+        width: 100%
+    
+    }
+
 }
