@@ -1,44 +1,25 @@
-/*global settings*/
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    min-height: 100%;
-    line-height: 1;
-    font-family: sans-serif;
-  }
-  
-  header{
-
-  }
-
-  nav{
-
-  }
-
-/*various headings*/
-h1 {
-  font-size: 300%;
+header {
+    background-color: rgb(43, 43, 107);
+    color : #fff;
+    text-align: center;
+    justify-content: center;
+    font-size: 5rem;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    padding: 1rem;
+}
+.container-fluid{
+    background-color: rgb(179, 156, 200);
+    padding: 1rem;
 }
 
-h2 {
-  font-size: 200%;
-}  
+#city-search{
 
-h3  {
-  font-size: 150%;
 }
-  ol, ul {
-    list-style: none;
-  }
 
+.card{
+    background-color: blanchedalmond;
+}
 
-  /* Matches the font of special elements to the rest of the page */
-  input, select, option, optgroup, textarea, button,
-  pre, code {
-    font-size: 100%;
-    font-family: inherit;
-  }
+button {
+    margin: 0.2rem
+}
