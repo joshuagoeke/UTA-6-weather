@@ -45,7 +45,7 @@ button {
 
 @media only screen and and(max-width: 580px) {
     #weather-data{
-        display:inline-flex;
+        display:block;
         background-color: yellow;
         
     }
