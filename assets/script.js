@@ -30,6 +30,7 @@ setInterval(keepTime, 1000)
 //     array.unshift(string)
 // }
 
+
 //get city search into local storage array, and update recentSearches array
 
 citySearchBtn.addEventListener("click" , (event)=> {
@@ -48,35 +49,56 @@ citySearchBtn.addEventListener("click" , (event)=> {
 
 
 
-//GEOLOCATE
+
 function searchIt() {
 
     var citySTring = recentSearches[0]
     var geoAPIURL;
+    var fiveDaysURL;
+    var lat;
+    var lon;
+//WEATHER
+function nowGetFiveDays(lat, lon){
+    //build search url
+    fiveDaysURL = `api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`
+    fetch(fiveDaysURL)
+    .then((response)=>response.json())
+    .then((weatherData) => {
+        localStorage.setItem("Weather Data", JSON.stringify(weatherData))
+        
+        console.log(weatherData);
+        
+    })
+}
+
+//GEOLOCATE
     function fetchWithWords(){
         fetch(geoAPIURL)
         .then((response)=>response.json())
-        .then((data) => {
-            localStorage.setItem("GeoLocation Data", JSON.stringify(data))
-            var lat = data[0].lat;
-            var lon = data[0].lon;
-            console.log(data);
-        })
-    }
-    function fetchWithZip(){
-        fetch(geoAPIURL)
-        .then((response)=>response.json())
-        .then((data) => {
-            localStorage.setItem("GeoLocation Data", JSON.stringify(data))
-            var lat = data.lat;
-            var lon = data.lon;
+        .then((geoData) => {
+            localStorage.setItem("GeoLocation Data", JSON.stringify(geoData))
+            lat = geoData[0].lat;
+            lon = geoData[0].lon;
+            console.log(geoData);
             console.log(lat);
             console.log(lon);
-            console.log(data);
+            nowGetFiveDays(lat, lon);
         })
     }
+    // function fetchWithZip(){
+    //     fetch(geoAPIURL)
+    //     .then((response)=>response.json())
+    //     .then((data) => {
+    //         localStorage.setItem("GeoLocation Data", JSON.stringify(data))
+    //         var lat = data.lat;
+    //         var lon = data.lon;
+    //         console.log(lat);
+    //         console.log(lon);
+    //         console.log(data);
+    //     })
+    // }
 //builds the right kind of URL based on user input
-    if (!Number.isNaN(citySTring)){
+    // if (!Number.isNaN(citySTring)){
 
         if (!citySTring.includes(",")){
             geoAPIURL = `http://api.openweathermap.org/geo/1.0/direct?q=${citySTring}&limit=5&appid=${apiKey}`
@@ -87,11 +109,16 @@ function searchIt() {
             geoAPIURL = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&${ST}&limit=5&appid=${apiKey}`
         }
         fetchWithWords();
-    }else{
-        var zip = citySTring
-        geoAPIURL = `http://api.openweathermap.org/geo/1.0/zip?zip=${zip}&US&limit=5&appid=${apiKey}`
-        fetchWithZip()
-    }
+    // }
+    // else{
+    //     var zip = citySTring
+    //     geoAPIURL = `http://api.openweathermap.org/geo/1.0/zip?zip=${zip}&US&limit=5&appid=${apiKey}`
+    //     fetchWithZip()
+    // }
+
+    
+
+
 };
 
-searchIt()
+// searchIt() //testing search on load
