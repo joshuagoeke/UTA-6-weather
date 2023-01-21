@@ -1,4 +1,4 @@
-console.log("yo buddy")
+console.log("keep building that weather app")
 
 //VARIABLES
 const apiKey = '8f38fad2aea298917061c12e77cc788b'
@@ -58,14 +58,13 @@ function searchIt() {
     var lat;
     var lon;
 //WEATHER
-function nowGetFiveDays(lat, lon){
+function nowGetFiveDays(){
     //build search url
-    fiveDaysURL = `api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`
+    fiveDaysURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`
     fetch(fiveDaysURL)
     .then((response)=>response.json())
     .then((weatherData) => {
         localStorage.setItem("Weather Data", JSON.stringify(weatherData))
-        
         console.log(weatherData);
         
     })
@@ -82,7 +81,7 @@ function nowGetFiveDays(lat, lon){
             console.log(geoData);
             console.log(lat);
             console.log(lon);
-            nowGetFiveDays(lat, lon);
+            nowGetFiveDays();
         })
     }
     // function fetchWithZip(){
