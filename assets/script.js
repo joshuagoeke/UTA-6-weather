@@ -121,15 +121,24 @@ function buildDays(){
     console.log(shortDate);
     var day1temp = weatherData[3].main.temp
     console.log(`Temp: ${day1temp} &deg F`)
-    
+
+    var listEl = document.getElementById(`weather-list1`)
+    var newli = document.createElement('li')
+    newli.textContent = day1temp;
+    listEl.appendChild(newli);
+
+    // for (let i = 0; i<5; i++){
+    // $(`#day${i+1} ul`).text("yo mama");
+    // }
 
     for (let i = 0; i<5; i++){
         $(`#day${i+1} h5`).text(`Day: ${shortDate}`)
-        var weatherList = $(`#day${i+1} ul`)
-        const tempLI = document.createElement('li');
-        tempLI.text (`Temp: ${day1temp} &degF`)
-        tempLI.appendChild(textTemp);
-        weatherList.appendChild(tempLI);
+        // var weatherList = $(`#day${i+1} ul`)
+        // const tempLI = document.createElement('li');
+        // tempLI.textContent = "foo-bar";
+        // // const textTemp = document.createTextNode("Temp: " + day1temp + " &degF");
+        // // tempLI.appendChild(textTemp);
+        // weatherList.appendChild(tempLI);
     }
 }
 buildDays()
