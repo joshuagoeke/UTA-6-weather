@@ -2,34 +2,30 @@ console.log("keep building that weather app")
 
 //VARIABLES
 const apiKey = '8f38fad2aea298917061c12e77cc788b'
-var currentDayTime = $("#time-location");
+
 const recentSearches =[];
 var searchesFromLocal = JSON.parse(localStorage.getItem("Recent Weather Searches"));
 recentSearches.unshift(searchesFromLocal)
 console.log(recentSearches);
+
+let toomuchData = JSON.parse(localStorage.getItem("Weather Data"))
+let weatherData = toomuchData.list;
+console.log(JSON.stringify(weatherData));
 let citySearchBtn = document.querySelector("#button-addon2")
+var currentDayTime = $("#time-location");
+
+var d1title = $("#day1 h5")
+var d1temp = $(".temp-1")
+var d1wind = $(".wind-1")
+var d1humid = $(".humid-1")
+
+// d1title.text("Yo mama")
 
 //FUNCTIONS
-
-// function updateSearch(){
-//     if (recentSearches.length > 0){
-//         var pullThisCity 
-//     }
-// }
-
-
 
 function keepTime(){currentDayTime.text(moment().format("dddd, MMM Do YYYY hh:mm:ss"))};
 //updates Timer
 setInterval(keepTime, 1000)
-
-//checks for duplicates of user input
-// function dupeChecker(string, array){
-//     const temparray = array.filter(searchedCity => searchedCity != string);
-//     array.unshift(temparray)
-//     array.unshift(string)
-// }
-
 
 //get city search into local storage array, and update recentSearches array
 
@@ -63,9 +59,9 @@ function nowGetFiveDays(){
     fiveDaysURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`
     fetch(fiveDaysURL)
     .then((response)=>response.json())
-    .then((weatherData) => {
-        localStorage.setItem("Weather Data", JSON.stringify(weatherData))
-        console.log(weatherData);
+    .then((wData) => {
+        localStorage.setItem("Weather Data", JSON.stringify(wData))
+        console.log(wData);
         
     })
 }
@@ -84,6 +80,7 @@ function nowGetFiveDays(){
             nowGetFiveDays();
         })
     }
+    
     // function fetchWithZip(){
     //     fetch(geoAPIURL)
     //     .then((response)=>response.json())
@@ -114,10 +111,25 @@ function nowGetFiveDays(){
     //     geoAPIURL = `http://api.openweathermap.org/geo/1.0/zip?zip=${zip}&US&limit=5&appid=${apiKey}`
     //     fetchWithZip()
     // }
-
-    
-
-
 };
 
 // searchIt() //testing search on load
+//BUILD DAYS
+function buildDays(){
+    var dailyDate = (weatherData[3].dt_txt)
+    shortDate = dailyDate.substr(5, 5)
+    console.log(shortDate);
+    var day1temp = weatherData[3].main.temp
+    console.log(`Temp: ${day1temp} &deg F`)
+    
+
+    for (let i = 0; i<5; i++){
+        $(`#day${i+1} h5`).text(`Day: ${shortDate}`)
+        var weatherList = $(`#day${i+1} ul`)
+        const tempLI = document.createElement('li');
+        tempLI.text (`Temp: ${day1temp} &degF`)
+        tempLI.appendChild(textTemp);
+        weatherList.appendChild(tempLI);
+    }
+}
+buildDays()
