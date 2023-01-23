@@ -9,6 +9,7 @@ console.log(recentSearches);
 
 let citySearchBtn = document.querySelector("#button-addon2")
 var currentDayTime = $("#time-location");
+let recentBtns = document.querySelector(".btn btn-primary")
 
 //FUNCTIONS
 
@@ -30,6 +31,7 @@ citySearchBtn.addEventListener("click" , (event)=> {
     localStorage.setItem("Recent Weather Searches", JSON.stringify(recentSearches));
     document.getElementById('search-field').value = ''
     searchIt();
+    buildSearchButtons()
 })
 
 
@@ -121,15 +123,13 @@ function nowGetFiveDays(){
 function buildDays(){
     let toomuchData = JSON.parse(localStorage.getItem("Weather Data"))
     let weatherData = toomuchData.list;
-    var dailyDate = (weatherData[3].dt)
-    console.log(dailyDate);
-    console.log(moment.unix(dailyDate).format("dddd, MMM Do YYYY hh:mm:ss"))
+   
 
     for (let i = 0; i<5; i++){
         whichDay = moment.unix(weatherData[7*i+4].dt).format("dddd MMM Do")
         $(`#day${i+1} h5`).text(`${whichDay}`)
         var listEl = document.getElementById(`weather-list${i+1}`)
-       
+        listEl.innerHTML = ""
         var tempLI = document.createElement('li')
         var dailytemp = weatherData[7*i+4].main.temp
         tempLI.textContent = `Temp: ${dailytemp} °F`;
@@ -146,21 +146,20 @@ function buildDays(){
         listEl.appendChild(humidLI)
 
     }
+    
 }
 buildDays(); //test with local storage data
-
 
 
 function buildToday(){
     let currentData = JSON.parse(localStorage.getItem("Current Weather"))
     console.log(currentData);
     let geoHandl = JSON.parse(localStorage.getItem("GeoLocation Data"));
-    console.log(geoHandl)
     var cityName = document.getElementById('city-name');
+    cityName.textContent.clear
     var listEl = document.getElementById('today-in-city')
+    listEl.innerHTML = ""
     var tempLI = document.createElement('li')
-    
-
     cityName.textContent = `Current Conditions: ${geoHandl[0].name}, ${geoHandl[0].state}`;
 
     var tempToday = currentData.main.temp
@@ -178,3 +177,35 @@ function buildToday(){
     listEl.appendChild(humidLI)
 }
 buildToday(); //test with local storage data
+
+
+function buildSearchButtons(){
+    let searchButtons = JSON.parse(localStorage.getItem("Recent Weather Searches")); 
+    console.log(searchButtons)
+    var searchListEl = document.getElementById("search-buttons-list")
+    
+    for (let j=searchButtons.length-1; j>0; j--){
+        if (searchButtons[j] === null || undefined){
+            continue
+        }
+        if (typeof searchButtons[j] === "array"){
+            continue
+        }
+            var buttonLI = document.createElement('li')
+            var btnEl = document.createElement('button')
+            btnEl.setAttribute("class", "btn btn-primary")
+            btnEl.setAttribute("id", searchButtons[j])
+            btnEl.textContent = searchButtons[j];
+            buttonLI.appendChild(btnEl)
+            searchListEl.appendChild(buttonLI)
+    }
+}
+buildSearchButtons()
+
+// recentBtns.addEventListener("click" , (event)=> {
+//     // var element = event.target;
+//     console.log("clicked a button")
+
+//     // searchIt();
+//     // buildSearchButtons()
+// })

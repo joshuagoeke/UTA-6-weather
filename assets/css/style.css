@@ -43,6 +43,16 @@ button {
     max-width: 18%;
 }
 
+.card-body ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.search-buttons-list{
+    list-style: none;
+    padding-left: 0;
+}
+
 @media only screen and and(max-width: 580px) {
     #weather-data{
         display:block;
@@ -58,7 +68,3 @@ button {
 
 }
 
-.card-body ul {
-    list-style: none;
-    padding-left: 0;
-}
