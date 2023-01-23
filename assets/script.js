@@ -3,13 +3,14 @@ console.log("keep building that weather app")
 //VARIABLES
 const apiKey = '8f38fad2aea298917061c12e77cc788b'
 const recentSearches =[];
-var searchesFromLocal = JSON.parse(localStorage.getItem("Recent Weather Searches"));
-recentSearches.unshift(searchesFromLocal)
-console.log(recentSearches);
+var searchesFromLocal = JSON.parse(localStorage.getItem("Recent Weather Searches"))||[];
+// recentSearches.unshift(searchesFromLocal)
+// console.log(recentSearches);
 
 let citySearchBtn = document.querySelector("#button-addon2")
 var currentDayTime = $("#time-location");
 let recentBtns = document.querySelector(".btn btn-primary")
+var searchListEl = document.getElementById("search-buttons-list")
 
 //FUNCTIONS
 
@@ -22,23 +23,38 @@ setInterval(keepTime, 1000)
 citySearchBtn.addEventListener("click" , (event)=> {
     event.preventDefault()
     let input = document.getElementById('search-field').value;
+
+    if(!recentSearches.includes(input)){
+    
     recentSearches.unshift(input)
     if (recentSearches.length >10){
         recentSearches.splice(10 , 10)
     }else{
         console.log("keep searching!")
     }
+    //do not duplicate code
     localStorage.setItem("Recent Weather Searches", JSON.stringify(recentSearches));
     document.getElementById('search-field').value = ''
-    searchIt();
-    buildSearchButtons()
-})
+    
+} else if (recentSearches.includes(input)){
+    var thatone = recentSearches.indexOf(input)
+    console.log(thatone)
+    recentSearches.unshift(input)
+    recentSearches.splice(thatone+1, 1)
+    console.log(recentSearches)
+    localStorage.setItem("Recent Weather Searches", JSON.stringify(recentSearches));
+  
+    }
+    searchIt(recentSearches[0]);
+    buildSearchButtons();
+}
+)
 
 
 
 
-function searchIt() {
-    var citySTring = recentSearches[0]
+function searchIt(citySTring) {
+    // var citySTring = recentSearches[0]
     var geoAPIURL;
     var fiveDaysURL;
     var lat;
@@ -118,7 +134,7 @@ function nowGetFiveDays(){
     // }
 };
 
-// searchIt() //testing search on load
+
 //BUILD DAYS
 function buildDays(){
     let toomuchData = JSON.parse(localStorage.getItem("Weather Data"))
@@ -180,11 +196,13 @@ buildToday(); //test with local storage data
 
 
 function buildSearchButtons(){
+    // var searchListEl = document.getElementById("search-buttons-list")
+    searchListEl.innerHTML = "";
     let searchButtons = JSON.parse(localStorage.getItem("Recent Weather Searches")); 
     console.log(searchButtons)
-    var searchListEl = document.getElementById("search-buttons-list")
     
-    for (let j=searchButtons.length-1; j>0; j--){
+    
+    for (let j=0; j<searchButtons.length; j++){
         if (searchButtons[j] === null || undefined){
             continue
         }
@@ -202,10 +220,10 @@ function buildSearchButtons(){
 }
 buildSearchButtons()
 
-// recentBtns.addEventListener("click" , (event)=> {
-//     // var element = event.target;
-//     console.log("clicked a button")
+searchListEl.addEventListener("click" , (event)=> {
+    var element = this.event.target.textContent;
+    console.log("clicked a button", element)
 
-//     // searchIt();
-//     // buildSearchButtons()
-// })
+    searchIt(element);
+    // buildSearchButtons()
+})
