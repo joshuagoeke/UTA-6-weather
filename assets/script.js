@@ -119,13 +119,10 @@ function buildDays(){
     var dailyDate = (weatherData[3].dt_txt)
     shortDate = dailyDate.substr(5, 5)
     console.log(shortDate);
-    var day1temp = weatherData[3].main.temp
-    console.log(`Temp: ${day1temp} &deg F`)
+    var dailytemp = weatherData[3].main.temp
+    console.log(`Temp: ${dailytemp} &deg F`)
 
-    var listEl = document.getElementById(`weather-list1`)
-    var newli = document.createElement('li')
-    newli.textContent = day1temp;
-    listEl.appendChild(newli);
+    
 
     // for (let i = 0; i<5; i++){
     // $(`#day${i+1} ul`).text("yo mama");
@@ -133,6 +130,11 @@ function buildDays(){
 
     for (let i = 0; i<5; i++){
         $(`#day${i+1} h5`).text(`Day: ${shortDate}`)
+        var listEl = document.getElementById(`weather-list${i+1}`)
+        var tempLI = document.createElement('li')
+        var dailytemp = weatherData[7*i+3].main.temp
+        tempLI.textContent = `Temp: ${dailytemp}`;
+        listEl.appendChild(tempLI);
         // var weatherList = $(`#day${i+1} ul`)
         // const tempLI = document.createElement('li');
         // tempLI.textContent = "foo-bar";
