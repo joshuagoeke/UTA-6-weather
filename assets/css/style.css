@@ -18,7 +18,7 @@ header {
 
 #weather-data{
     width:75%;
-    background-color: orange;
+    /* background-color: orange; */
     
 }
 
@@ -34,7 +34,7 @@ button {
 }
 
 #fivedays{
-    background-color: blue;
+    /* background-color: blue; */
     justify-items: center;
 }
 
