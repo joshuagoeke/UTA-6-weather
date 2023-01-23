@@ -116,31 +116,27 @@ function nowGetFiveDays(){
 // searchIt() //testing search on load
 //BUILD DAYS
 function buildDays(){
-    var dailyDate = (weatherData[3].dt_txt)
-    shortDate = dailyDate.substr(5, 5)
-    console.log(shortDate);
-    var dailytemp = weatherData[3].main.temp
-    console.log(`Temp: ${dailytemp} &deg F`)
-
-    
-
-    // for (let i = 0; i<5; i++){
-    // $(`#day${i+1} ul`).text("yo mama");
-    // }
+    var dailyDate = (weatherData[3].dt)
+    console.log(dailyDate);
+    console.log(moment.unix(dailyDate).format("dddd, MMM Do YYYY hh:mm:ss"))
 
     for (let i = 0; i<5; i++){
-        $(`#day${i+1} h5`).text(`Day: ${shortDate}`)
+        whichDay = weatherData[7*i+3].dt
+        $(`#day${i+1} h5`).text(`${whichDay}`)
         var listEl = document.getElementById(`weather-list${i+1}`)
         var tempLI = document.createElement('li')
         var dailytemp = weatherData[7*i+3].main.temp
-        tempLI.textContent = `Temp: ${dailytemp}`;
+        tempLI.textContent = `Temp: ${dailytemp} °F`;
         listEl.appendChild(tempLI);
-        // var weatherList = $(`#day${i+1} ul`)
-        // const tempLI = document.createElement('li');
-        // tempLI.textContent = "foo-bar";
-        // // const textTemp = document.createTextNode("Temp: " + day1temp + " &degF");
-        // // tempLI.appendChild(textTemp);
-        // weatherList.appendChild(tempLI);
+        var windLI = document.createElement('li')
+        var dailyWind = weatherData[7*i+3].wind.speed
+        windLI.textContent = `Wind: ${dailyWind} mph`;
+        listEl.appendChild(windLI);
+        var humidLI = document.createElement('li')
+        var dailyHumid = weatherData[7*i+3].main.temp
+        humidLI.textContent = `Humidity: ${dailyHumid}%`
+        listEl.appendChild(humidLI)
+
     }
 }
 buildDays()
