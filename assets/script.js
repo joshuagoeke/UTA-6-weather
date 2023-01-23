@@ -2,24 +2,13 @@ console.log("keep building that weather app")
 
 //VARIABLES
 const apiKey = '8f38fad2aea298917061c12e77cc788b'
-
 const recentSearches =[];
 var searchesFromLocal = JSON.parse(localStorage.getItem("Recent Weather Searches"));
 recentSearches.unshift(searchesFromLocal)
 console.log(recentSearches);
 
-let toomuchData = JSON.parse(localStorage.getItem("Weather Data"))
-let weatherData = toomuchData.list;
-console.log(JSON.stringify(weatherData));
 let citySearchBtn = document.querySelector("#button-addon2")
 var currentDayTime = $("#time-location");
-
-var d1title = $("#day1 h5")
-var d1temp = $(".temp-1")
-var d1wind = $(".wind-1")
-var d1humid = $(".humid-1")
-
-// d1title.text("Yo mama")
 
 //FUNCTIONS
 
@@ -47,13 +36,26 @@ citySearchBtn.addEventListener("click" , (event)=> {
 
 
 function searchIt() {
-
     var citySTring = recentSearches[0]
     var geoAPIURL;
     var fiveDaysURL;
     var lat;
     var lon;
+
 //WEATHER
+function getRightNow(){
+    //build search url
+    todayURL = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`
+    fetch(todayURL)
+    .then((response)=>response.json())
+    .then((wDataNow) => {
+        localStorage.setItem("Current Weather", JSON.stringify(wDataNow))
+        buildToday()
+        console.log(wDataNow);
+    })
+}
+
+
 function nowGetFiveDays(){
     //build search url
     fiveDaysURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`
@@ -61,7 +63,7 @@ function nowGetFiveDays(){
     .then((response)=>response.json())
     .then((wData) => {
         localStorage.setItem("Weather Data", JSON.stringify(wData))
-        console.log(wData);
+        buildDays();
         
     })
 }
@@ -77,6 +79,7 @@ function nowGetFiveDays(){
             console.log(geoData);
             console.log(lat);
             console.log(lon);
+            getRightNow();
             nowGetFiveDays();
         })
     }
@@ -116,27 +119,62 @@ function nowGetFiveDays(){
 // searchIt() //testing search on load
 //BUILD DAYS
 function buildDays(){
+    let toomuchData = JSON.parse(localStorage.getItem("Weather Data"))
+    let weatherData = toomuchData.list;
     var dailyDate = (weatherData[3].dt)
     console.log(dailyDate);
     console.log(moment.unix(dailyDate).format("dddd, MMM Do YYYY hh:mm:ss"))
 
     for (let i = 0; i<5; i++){
-        whichDay = weatherData[7*i+3].dt
+        whichDay = moment.unix(weatherData[7*i+4].dt).format("dddd MMM Do")
         $(`#day${i+1} h5`).text(`${whichDay}`)
         var listEl = document.getElementById(`weather-list${i+1}`)
+       
         var tempLI = document.createElement('li')
-        var dailytemp = weatherData[7*i+3].main.temp
+        var dailytemp = weatherData[7*i+4].main.temp
         tempLI.textContent = `Temp: ${dailytemp} °F`;
         listEl.appendChild(tempLI);
+       
         var windLI = document.createElement('li')
-        var dailyWind = weatherData[7*i+3].wind.speed
+        var dailyWind = weatherData[7*i+4].wind.speed
         windLI.textContent = `Wind: ${dailyWind} mph`;
         listEl.appendChild(windLI);
+       
         var humidLI = document.createElement('li')
-        var dailyHumid = weatherData[7*i+3].main.temp
+        var dailyHumid = weatherData[7*i+4].main.temp
         humidLI.textContent = `Humidity: ${dailyHumid}%`
         listEl.appendChild(humidLI)
 
     }
 }
-buildDays()
+buildDays(); //test with local storage data
+
+
+
+function buildToday(){
+    let currentData = JSON.parse(localStorage.getItem("Current Weather"))
+    console.log(currentData);
+    let geoHandl = JSON.parse(localStorage.getItem("GeoLocation Data"));
+    console.log(geoHandl)
+    var cityName = document.getElementById('city-name');
+    var listEl = document.getElementById('today-in-city')
+    var tempLI = document.createElement('li')
+    
+
+    cityName.textContent = `Current Conditions: ${geoHandl[0].name}, ${geoHandl[0].state}`;
+
+    var tempToday = currentData.main.temp
+    tempLI.textContent = `Temp: ${tempToday} °F`;
+    listEl.appendChild(tempLI);
+
+    var windLI = document.createElement('li')
+    var windToday = currentData.wind.speed
+    windLI.textContent = `Wind: ${windToday} mph`;
+    listEl.appendChild(windLI);
+
+    var humidLI = document.createElement('li')
+    var humidToday = currentData.main.humidity
+    humidLI.textContent = `Humidity: ${humidToday}%`
+    listEl.appendChild(humidLI)
+}
+buildToday(); //test with local storage data
