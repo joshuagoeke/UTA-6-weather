@@ -63,7 +63,7 @@ function searchIt(citySTring) {
 //WEATHER
 function getRightNow(){
     //build search url
-    todayURL = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`
+    todayURL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`
     fetch(todayURL)
     .then((response)=>response.json())
     .then((wDataNow) => {
@@ -76,7 +76,7 @@ function getRightNow(){
 
 function nowGetFiveDays(){
     //build search url
-    fiveDaysURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`
+    fiveDaysURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`
     fetch(fiveDaysURL)
     .then((response)=>response.json())
     .then((wData) => {
@@ -118,18 +118,18 @@ function nowGetFiveDays(){
     // if (!Number.isNaN(citySTring)){
 
         if (!citySTring.includes(",")){
-            geoAPIURL = `http://api.openweathermap.org/geo/1.0/direct?q=${citySTring}&limit=5&appid=${apiKey}`
+            geoAPIURL = `https://api.openweathermap.org/geo/1.0/direct?q=${citySTring}&limit=5&appid=${apiKey}`
         }else{
             var citySTarray = citySTring.split(",");
             var city = citySTarray[0]
             var ST = citySTarray[1]
-            geoAPIURL = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&${ST}&limit=5&appid=${apiKey}`
+            geoAPIURL = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&${ST}&limit=5&appid=${apiKey}`
         }
         fetchWithWords();
     // }
     // else{
     //     var zip = citySTring
-    //     geoAPIURL = `http://api.openweathermap.org/geo/1.0/zip?zip=${zip}&US&limit=5&appid=${apiKey}`
+    //     geoAPIURL = `https://api.openweathermap.org/geo/1.0/zip?zip=${zip}&US&limit=5&appid=${apiKey}`
     //     fetchWithZip()
     // }
 };
@@ -164,7 +164,7 @@ function buildDays(){
     }
     
 }
-buildDays(); //test with local storage data
+// buildDays(); //test with local storage data
 
 
 function buildToday(){
@@ -192,7 +192,7 @@ function buildToday(){
     humidLI.textContent = `Humidity: ${humidToday}%`
     listEl.appendChild(humidLI)
 }
-buildToday(); //test with local storage data
+// buildToday(); //test with local storage data
 
 
 function buildSearchButtons(){
