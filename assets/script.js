@@ -164,7 +164,7 @@ function buildDays(){
     }
     
 }
-// buildDays(); //test with local storage data
+
 
 
 function buildToday(){
@@ -192,7 +192,7 @@ function buildToday(){
     humidLI.textContent = `Humidity: ${humidToday}%`
     listEl.appendChild(humidLI)
 }
-// buildToday(); //test with local storage data
+
 
 
 function buildSearchButtons(){
