@@ -199,7 +199,6 @@ function buildSearchButtons(){
     // var searchListEl = document.getElementById("search-buttons-list")
     searchListEl.innerHTML = "";
     let searchButtons = JSON.parse(localStorage.getItem("Recent Weather Searches")); 
-    console.log(searchButtons)
     
     
     for (let j=0; j<searchButtons.length; j++){
